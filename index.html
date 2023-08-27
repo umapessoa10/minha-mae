@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feliz Aniversário!</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Trebuchet MS';
+            background: url(images/bg.png);
+            background-size: auto 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            overflow-y: hidden;
+        }
+
+        .star {
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            color: white;
+            cursor: pointer;
+            z-index: 9999;
+            animation: blink 1s infinite alternate;
+        }
+
+        .star::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: '';
+            width: 30px;
+            height: 30px;
+            color: white;
+            background-color: white;
+            clip-path: polygon(50% 0, 61.5% 35%, 100% 45%, 65% 65%, 50% 100%, 35% 65%, 0 45%, 38.5% 35%);
+            transition: 0.3s ease;
+            border: 2px solid darkgray;
+        }
+
+        @keyframes blink {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0.5;
+            }
+        }
+
+        #message {
+            background-color: white;
+            max-width: 13%;
+            position: absolute;
+            top: 60px;
+            left: 30px;
+            border: 10px solid darkgray;
+            border-radius: 10px;
+            transition: 0.3s ease;
+            display: none;
+            z-index: 5;
+            
+        }
+
+        #message::before {
+            content: "";
+            background-color: darkgray;
+            position: absolute;
+            top: -60px;
+            left: 27%;
+            z-index: -1;
+            width: 40%;
+            height: 23%;
+            max-height: 50px;
+            clip-path: polygon(50% 0%, 20% 100%, 80% 100%);
+        }
+
+        .moon {
+            position: absolute;
+            top: 0;
+            width: 10%;
+            max-width: 150px;
+            max-height: 150px;
+            cursor: pointer;
+            height: 10vw;
+            background-image: url(images/moon.jpg);
+            border-radius: 50%;
+            background-size: 10vw 10vw;
+        }
+
+        .happybirthday {
+            position: absolute;
+            left: 50%;
+            margin-left: -200px;
+            top: 50%;
+            margin-top: -100px;
+            z-index: 999;
+            font-size: 300%;
+            animation: color 3s infinite alternate;
+        }
+
+        @keyframes color {
+            0% {
+                color: red;
+            }
+            25% {
+                color: yellow;
+            }
+            50% {
+                color: green;
+            }
+            75% {
+                color: blue;
+            }
+            100% {
+                color: blueviolet;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="moon" onclick="showMessage(3, event)"></div>
+    <div class="star" onclick="showMessage(0, event)" style="left: 10%;top: 20%;"></div>
+    <div class="star" onclick="showMessage(1, event)" style="right: 10%;top: 23%;"></div>
+    <div class="star" onclick="showMessage(4, event)" style="right: 20%;top: 35%;"></div>
+    <div class="star" onclick="showMessage(5, event)" style="left: 40%;top: 25%;"></div>
+    <div class="star" onclick="showMessage(6, event)" style="left: 25%;top: 33%;"></div>
+    <div id="message"></div>
+
+    <script>
+        const messagesBank = [
+            `<span><b>Quando você tirou 7</b></span>
+            <p>Você chorou e tiveram que te buscar na escola, eu sou exatamente assim. Feliz Aniversário Mãe, te amo do fundo do meu coração e fiz esse site com todo o carinho e conhecimento que tive, muito obrigado por cuidar de mim tão bem durante todo esse tempo!</p>
+            <b>~Fefe</b>`,
+
+            `<span><b>Déioca</b></span>
+            <p>Déioca minha filha querida, feliz aniversario e uma vida de muita saude, sucesso e alegrias, te amo muito!</p>
+            <b>~Vovó</b>`,
+
+            `<span><b>Déioca</b><span>
+            <p>Déioca minha filha querida, feliz aniversario e uma vida de muita saude, sucesso e alegrias, te amo muito!</p>
+            <b>~Vovô</b>`,
+
+            `<iframe style="width:100%; height: 100%; overflow: hidden;" src="fireworks/fireworks.html"></iframe><h1 class='happybirthday'>Feliz Aniversário!</h1>`,
+
+            `<span><b>Tiamo</b></span>
+            <p>Tiamo muito mamãe! ❤❤💚💚😍😍🥰🥰❤❤💚💚😍😍🥰🥰❤❤💚💚😍😍🥰🥰❤❤💚💚😍😍🥰🥰😍😍🥰🥰❤❤💚💚😍😍🥰🥰😍😍🥰🥰❤❤💚💚</p>
+            <b>~Isinha</b>`,
+
+            `<span><b>Saudades!</b></span>
+            <p>Andréa, parabéns, feliz aniversário, aproveite a festa! Queríamos muito estar ai pra comemorar com vocês, vem comemorar aqui de novo com a gente! Saudades de vocês, beijos 😘❤️</p>
+            <b>~Tia Carol</b>`,
+            `<b>Seu Dia</b>
+            <span>Mãe, parabéns pelo seu dia! Obrigado por ser a melhor mãe do mundo. Te amo muito! Beijos.</span>
+            <b>~Papai</b>`,
+
+        ];
+    
+        const moon = document.querySelector('.moon');
+        const star1 = document.querySelectorAll('.star')[0]; // First star
+        const star2 = document.querySelectorAll('.star')[1]; // Second star
+        const message = document.getElementById('message');
+        let CID;
+        
+    
+        function showMessage(id, event) {
+            message.innerHTML = messagesBank[id];
+    
+            if (CID !== id) {
+                CID = id;
+                message.style.display = 'block';
+                message.style.zIndex = '5';
+                if (CID === 3) {
+                    message.style.width = '69%';
+                    message.style.height = '78%'; // Make the window bigger only in this case :0
+                    message.style.maxWidth = '100vw';
+                } else {
+                    message.style.maxWidth = '13vw';
+                    message.style.height = '';
+                }
+
+                if (id == '1' || id == '6') {
+                    message.style.fontSize = '150%';
+                }else{
+                    message.style.fontSize = '100%';
+                }
+                setTimeout(() =>{
+                    const Xoffset = message.offsetWidth / 2;
+        
+                    message.style.top = `${event.clientY + 70}px`; // Mouse Y coordinate
+                    message.style.left = `${event.clientX - Xoffset}px`; // Mouse X coordinate
+                
+                }, 300)
+    
+                // Calculate Offset
+                
+            } else {
+                message.style.display = 'none';
+                CID = undefined;
+            }
+        }
+    </script>
+    
+</body>
+</html>
